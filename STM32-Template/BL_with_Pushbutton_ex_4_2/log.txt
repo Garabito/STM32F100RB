@@ -1,0 +1,51 @@
+Continuing.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x080004cc in Delay (nTime=nTime@entry=250) at main.c:49
+49	    while ( TimingDelay != 0);
+1: button = 0
+Breakpoint 4 at 0x80004c4: file main.c, line 42.
+Num     Type           Disp Enb Address    What
+1       hw watchpoint  keep y              button
+	stop only if button!=0
+2       hw watchpoint  keep y              button==0
+3       breakpoint     keep y   0x08000550 in main at main.c:35
+4       breakpoint     keep y   0x080004c4 in Delay at main.c:42
+Num     Type           Disp Enb Address    What
+1       hw watchpoint  keep y              button
+	stop only if button!=0
+3       breakpoint     keep y   0x08000550 in main at main.c:35
+4       breakpoint     keep y   0x080004c4 in Delay at main.c:42
+Num     Type           Disp Enb Address    What
+3       breakpoint     keep y   0x08000550 in main at main.c:35
+4       breakpoint     keep y   0x080004c4 in Delay at main.c:42
+Num     Type           Disp Enb Address    What
+3       breakpoint     keep y   0x08000550 in main at main.c:35
+#1  0x08000592 in main () at main.c:41
+41	    Delay (250);
+2: button = 0
+Starting program: /home/antonio/STM32F100RB/STM32-Template/BL_with_Pushbutton_ex_4_2/BL_with_Pushbutton_ex_4_2.elf 
+
+Breakpoint 4, Delay (nTime=nTime@entry=250) at main.c:48
+48	    TimingDelay = nTime ;
+2: button = 0
+1: button = 0
+Starting program: /home/antonio/STM32F100RB/STM32-Template/BL_with_Pushbutton_ex_4_2/BL_with_Pushbutton_ex_4_2.elf 
+
+Breakpoint 4, Delay (nTime=nTime@entry=250) at main.c:48
+48	    TimingDelay = nTime ;
+2: button = 0
+1: button = 0
+49	    while ( TimingDelay != 0);
+2: button = 0
+1: button = 0
+Quit
+Quit
+Continuing.
+Cannot execute this command while the selected thread is running.
+Cannot execute this command while the target is running.
+Use the "interrupt" command to stop the target
+and then try again.
+Cannot execute this command while the target is running.
+Use the "interrupt" command to stop the target
+and then try again.
