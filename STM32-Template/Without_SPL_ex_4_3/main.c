@@ -1,58 +1,30 @@
 # include <stm32f10x.h>
-# include <stm32f10x_rcc.h>
-# include <stm32f10x_gpio.h>
 
-void Delay( uint32_t nTime );
+main (){
+  int button;  
+   
+  //Pag 89 RM0041 Reference manual STM32F100xx
+  //Enable clock
+  RCC->APB2ENR |= (RCC_APB2ENR_IOPAEN | RCC_APB2ENR_IOPCEN); //0x00000010 | 0x00000004 ( line 2045 stm32f10x.h )
 
-int main(void){
-  GPIO_InitTypeDef
-  GPIO_InitStructure ;
+  //Pag 110 RM0041 Reference manual STM32F100xx
+  //configure button
+  GPIOA->CRL |= GPIO_CRL_CNF0_0; //0x00000004 (line 2345 stm32f10x.h  Floating input )
 
-  // Enable Peripheral Clocks
-  RCC_APB2PeriphClockCmd ( RCC_APB2Periph_GPIOC , ENABLE );
-  RCC_APB2PeriphClockCmd ( RCC_APB2Periph_GPIOA , ENABLE );
+  //configure led
+  GPIOC->CRH |= GPIO_CRH_MODE8_1;//0x00000002 (line 2381 stm32f10x.h Output mode, max speed 2 MHz )
 
-  // Configure Pins
-  GPIO_StructInit (&GPIO_InitStructure );
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_8;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init (GPIOC , &GPIO_InitStructure );
+  while (1){
+    button = ((GPIOA->IDR & GPIO_IDR_IDR0) == 1 );// ( (XXXX XXXX XXX? XXXX) & (0000 0000 0001 0000) line 2446 stm32f10x.h)
 
-  GPIO_StructInit (&GPIO_InitStructure );
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_2MHz;
-  GPIO_Init (GPIOA , &GPIO_InitStructure );
-
-  // Configure SysTick Timer
-  if ( SysTick_Config ( SystemCoreClock / 1000) )
-    while (1);
-
-  while (1) {
-    static int ledval = 0;
-    static int button = 0;
-    button = GPIO_ReadInputDataBit (GPIOA , GPIO_Pin_0 );
-    // toggle led
-    GPIO_WriteBit (GPIOC , GPIO_Pin_9 , ( ledval ) ? Bit_SET : Bit_RESET );
-    GPIO_WriteBit (GPIOC , GPIO_Pin_8 , ( button ) ? Bit_SET : Bit_RESET );
-    ledval = 1 - ledval;
-
-    Delay (250);
-    // wait 250 ms
+    if (button)
+      GPIOC->BSRR = GPIO_BSRR_BS8; // 0x00000100 (line 2490 stm32f10x.h )
+    else
+      GPIOC->BSRR = GPIO_BSRR_BR8; // 0x01000000 (line 2507 stm32f10x.h )
   }
+
 }
-// Timer code
-  static __IO uint32_t TimingDelay ;
-  void Delay( uint32_t nTime ){
-    TimingDelay = nTime ;
-    while ( TimingDelay != 0);
-  }
 
-  void SysTick_Handler (void){
-    if ( TimingDelay != 0x00)
-    TimingDelay --;
-  }
 
 #ifdef USE_FULL_ASSERT
 void assert_failed ( uint8_t * file , uint32_t line){
