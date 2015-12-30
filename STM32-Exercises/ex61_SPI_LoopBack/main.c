@@ -14,7 +14,6 @@ int main(void){
   uart_open(USART1,9600,0);
 
   char hello[13] = "Hello World!\n";
-
   while (1) {
     for( int i = 0 ; i<13 ; i++)
       uart_putc(hello[i],USART1);
