@@ -4,12 +4,12 @@
 /*  Colors are 565 RGB (5 bits Red, 6 bits green, 5 bits blue) */
 
 #define BLACK           0x0000
-#define BLUE            0x001F
+#define BLUE            0xF800 
 #define GREEN           0x07E0
-#define CYAN            0x07FF
-#define RED             0xF800
+#define CYAN            0xFFE0
+#define RED             0x001F
 #define MAGENTA         0xF81F       
-#define YELLOW          0xFFE0  
+#define YELLOW          0x07FF
 #define WHITE           0xFFFF
 
 #define SPILCD SPI2
@@ -22,6 +22,7 @@
 
 #define MADCTLGRAPHICS 0x6
 #define MADCTLBMP      0x2
+#define MADCTLCHAR     0x7 //easy to put char
 
 #define ST7735_width  128
 #define ST7735_height 160
