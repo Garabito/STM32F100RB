@@ -13,12 +13,17 @@ void putWord( char *word, uint8_t size, uint16_t x0, uint16_t y0, uint16_t color
 int main(void)
 {
     ST7735_init();
+    ST7735_backLight(1);
     while(1){
-      
+      uint16_t ry = rand() % 159;
+      uint16_t rx = rand() % 127;
+      if(rx+7*6 > 128)
+      	rx-=7*6; //7 caracteres por 6 pixeles( para que no se salga de la pantalla)
+
       char word[7] = "Antonio";
-      fillScreen(MAGENTA);
-      putWord(word,7,20,60,BLACK,RED);
-      Delay(2000);
+      fillScreen(WHITE);
+      putWord(word,7,rx,ry,BLUE,WHITE);
+      Delay(1000);
       
     }
     return 0;
